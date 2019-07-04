@@ -368,9 +368,10 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    return su_main(argc, argv, 1);
+    return su_main(argc, argv, 1);//##@@## "need_client" was set 1 by default for client entry
 }
-
+//##@@## "need_client" was set 1 by default for client entry
+//##@@## set 0  when called inside daemon
 int su_main(int argc, char *argv[], int need_client) {
     // start up in daemon mode if prompted
     if (argc == 2 && strcmp(argv[1], "--daemon") == 0) {
@@ -486,9 +487,10 @@ int su_main(int argc, char *argv[], int need_client) {
     if (need_client) {
         // attempt to connect to daemon...
         ALOGD("starting daemon client %d %d", getuid(), geteuid());
-        return connect_daemon(argc, argv, ppid);
+        return connect_daemon(argc, argv, ppid);//##@@## enter this when called by client user
     }
 
+    //##@@## enter below when called from daemon.
     if (optind < argc && !strcmp(argv[optind], "-")) {
         ctx.to.login = 1;
         optind++;
